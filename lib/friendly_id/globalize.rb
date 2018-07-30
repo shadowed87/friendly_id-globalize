@@ -94,7 +94,7 @@ current locale:
     end
 
     def set_slug(normalized_slug = nil)
-      (self.translations.map(&:locale).presence || [::Globalize.locale]).each do |locale|
+      (self.translations.where.not("locale like '%-SYN'").map(&:locale).presence || [::Globalize.locale]).each do |locale|
         ::Globalize.with_locale(locale) { super_set_slug(normalized_slug) }
       end
     end
